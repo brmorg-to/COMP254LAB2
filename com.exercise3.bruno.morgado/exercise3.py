@@ -2,8 +2,18 @@
 Student: Bruno Morgado
 Student# 301-154-898
 '''
+
+
+'''
+An array A contains n−1 unique integers in the range [0,n−1], that is, there is one number from this range that is not in A.
+Design an O(n)-time algorithm for finding that number. You are only allowed to use O(1) additional space besides the array A itself.
+Write the java method that implements this algorithm and a main method to test it.
+Hint: Numbers in [0, n-1] form an arithmetic progression whose sum is known.
+'''
+# Import required modules / libraries
 import numpy as np
 
+# Build an array with a missing number based on a range value.
 def build_array(array_range):
     # random index to remove from array
     rand_number = np.random.randint(1, array_range + 1)
@@ -16,16 +26,19 @@ def build_array(array_range):
     
     return incomplete_array
 
+# Identifies the missing number in the array
 def find_missing_number(incomplete_array):
     
     length = len(incomplete_array) + 1
+    # Calculate the sum of all values in a complete array
     total = (length*(length + 1)) / 2
 
+    # Iterate through the incomplete array and subtract its values from the total
     for i in range(len(incomplete_array)):
         total -= incomplete_array[i]
     
+    # Return the missing number
     return total
-
 
 
 def main():
@@ -43,6 +56,7 @@ def main():
     print(f'\nMissing Number from test_array2 is: {missing_num2}')
 
     print('-'*100)
+
 
 if __name__ == '__main__':
 
