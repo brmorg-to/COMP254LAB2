@@ -12,15 +12,12 @@ Hint: Choose representative values of the input size n, similar to StringExperim
 
 # Import the necessary modules
 import numpy as np
-import pandas as pd
 import matplotlib.pyplot as plt
-# from multiprocessing import Pool, cpu_count
 import concurrent.futures
-from time import perf_counter, perf_counter_ns
-import seaborn as sns
+from time import perf_counter
 import os
 
-# First method to be tested. O(n^2) time complexity
+# First method to be tested. O(n^2) time complexity.
 def prefix_average1(array_x):
     n = len(array_x)
     a = [0] * n
@@ -34,7 +31,7 @@ def prefix_average1(array_x):
 
     return a;
 
-#Second method to be tested. O(n) time complexity
+#Second method to be tested. O(n) time complexity.
 def prefix_average2(array_x):
     n = len(array_x)
     a = [0] * n
@@ -45,7 +42,7 @@ def prefix_average2(array_x):
         a[j] = total / (j + 1.0);
     return a;
 
-# Method to return the time that prefix1 spends to process a given array
+# Method to return the time that prefix1 spends to process a given array.
 def prefix1_time(array):
     print(f'\nLength of array = {len(array)}')
     start = perf_counter()
@@ -57,7 +54,7 @@ def prefix1_time(array):
     #return the time in seconds
     return time
 
-# Method to return the time that prefix2 spends to process a given array
+# Method to return the time that prefix2 spends to process a given array.
 def prefix2_time(array):
     print(f'\nLength of array = {len(array)}')
     start = perf_counter()
@@ -69,20 +66,22 @@ def prefix2_time(array):
     #return the time in seconds
     return time
 
-# Loglog plot of array sizes versus processing time for the two methods under analysis
+# Loglog plot of array sizes versus processing time for the two methods under analysis.
 def plot_loglog(x, y1, y2):
 
     fig, ax = plt.subplots(figsize=[11, 7])
     ax.loglog(x, y1, ':b', linewidth=2)
     ax.loglog(x, y2, '--r', linewidth=2)
-    ax.set_title('loglog prefix1 O(n^2) / prefisx2 O(n)  ', fontsize=15)
+    ax.set_xscale("log", base=2)
+    ax.set_yscale("log", base=2)
+    ax.set_title('loglog prefix1 O(n^2) / prefix2 O(n)  ', fontsize=15)
     ax.set_xlabel('Aray Length', fontsize=13)
     ax.set_ylabel('Time', fontsize=13)
     ax.legend(['O(n^2)', 'O(n)'])
     plt.show()
 
 # Method to start the experimental analysis, print the times arrays and plot the lolog graph.
-# This method can be run via single or multi processing
+# This method can be run via single or multi processing.
 def process_analysis(list_of_arrays):
 
     '''Single processing'''
@@ -100,6 +99,7 @@ def process_analysis(list_of_arrays):
     with concurrent.futures.ProcessPoolExecutor() as executor:
         list_times1 = [x for x in (executor.map(prefix1_time, list_of_arrays))]
         list_times2 = [x for x in (executor.map(prefix2_time, list_of_arrays))]
+
     # Print the resulting list of times that the methods took to process the list of arrays
     print(list_times1)
     print(f'\n{list_times2}')
